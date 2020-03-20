@@ -1,4 +1,4 @@
-import { events } from './data'
+import { events } from './data';
 
 const nextButton = document.getElementById("nextButton");
 const previousButton = document.getElementById("previousButton");
@@ -24,9 +24,16 @@ function init() {
             questionData.push(randomQuestion);
         }
     }
+    showQuestion(currentStep);
 }
 
-init();
+function showQuestion(currentStep) {
+    const currentQuestions = questionData.filter(q => q.step === currentStep);
+    console.log(currentQuestions)
+    questionsDiv.forEach( (question, index) => {
+        question.innerHTML = currentQuestions[index].event;
+    })
+}
 
 questionsDiv.forEach(question => {
     question.addEventListener('dragstart', () => {
@@ -47,7 +54,6 @@ taskDiv.addEventListener('dragover', (e) => {
     } else {
         taskDiv.appendChild(selectedQuestion);
     }
-
 })
 
 function getNextQuestionDiv(y) {
@@ -65,6 +71,7 @@ function getNextQuestionDiv(y) {
 
 nextButton.addEventListener('click', () => {
     addDoneClass(currentStep);
+    showQuestion(currentStep)
     currentStep++;
     previousButton.disabled = false;
     if (currentStep === 4) {
@@ -76,6 +83,7 @@ nextButton.addEventListener('click', () => {
 previousButton.addEventListener('click', () => {
     currentStep--;
     removeDoneClass(currentStep);
+    showQuestion(currentStep - 1);
     nextButton.innerHTML = "Następne"
     if (currentStep === 0) {
         previousButton.disabled = true;
@@ -93,3 +101,5 @@ function removeDoneClass(element) {
     stepsBar[element].classList.remove("step--done");
     stepsBar[element].firstElementChild.classList.remove("step__p--done");
 }
+
+init();
