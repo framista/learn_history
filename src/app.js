@@ -1,3 +1,5 @@
+import Question from './Question'
+
 const nextButton = document.getElementById("nextButton");
 const previousButton = document.getElementById("previousButton");
 const stepsBar = document.querySelectorAll(".step");
@@ -14,7 +16,6 @@ questions.forEach(question => {
     question.addEventListener('dragend', () => {
         question.classList.remove("question--dragging");
     })
-
 })
 
 task.addEventListener('dragover', (e) => {
