@@ -1,0 +1,28 @@
+import Question from './Question'
+
+export const events = [
+    new Question("Chrzest Polski", 966),
+    new Question("Bitwa pod Cedynią", 972),
+    new Question("Zjazd w Gnieźnie", 1000),
+    new Question("Koronacja Bolesława Chrobrego", 1025),
+    new Question("Podział Polski na dzielnice", 1138),
+    new Question("Bitwa pod Płowcami", 1331),
+    new Question("Założenie Akademii Krakowskiej", 1364),
+    new Question("Bitwa pod Grunwaldem", 1410),
+    new Question("Bitwa pod Warną", 1444),
+    new Question("Hołd Pruski", 1525),
+    new Question("Bitwa pod Kircholmem", 1605),
+    new Question("Oblężenie Jasnej Góry", 1655),
+    new Question("Odsiecz wiedeńska", 1683),
+    new Question("Sejm Niemy", 1717),
+    new Question("I rozbiór Polski", 1772),
+    new Question("Utworzenie KEN", 1773),
+    new Question("Konfederacja targowicka", 1792),
+    new Question("II rozbiór Polski", 1793),
+    new Question("Powstanie kościuszkowskie", 1794),
+    new Question("III rozbiór Polski", 1795),
+    new Question("Powstanie listopadowe", 1830),
+    new Question("Bitwa warszawska", 1920),
+    new Question("Przewrót majowy", 1926),
+    new Question("Akcja pod Arsenałem", 1943),
+]

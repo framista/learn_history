@@ -1,14 +1,34 @@
-import Question from './Question'
+import { events } from './data'
 
 const nextButton = document.getElementById("nextButton");
 const previousButton = document.getElementById("previousButton");
 const stepsBar = document.querySelectorAll(".step");
-const task = document.querySelector(".task");
-const questions = document.querySelectorAll(".question");
+const taskDiv = document.querySelector(".task");
+const questionsDiv = document.querySelectorAll(".question");
 
 let currentStep = 0;
+const stepsAmount = 5;
+const questionAmount = 4;
+const allQuestion = events.length;
+const questionData = [];
 
-questions.forEach(question => {
+function init() {
+    for (let i = 0; i < stepsAmount; i++) {
+        for (let j = 0; j < questionAmount; j++) {
+            let randomQuestion = events[Math.floor(Math.random() * allQuestion)];
+            while (randomQuestion.step !== -1) {
+                randomQuestion = events[Math.floor(Math.random() * allQuestion)];
+            }
+            randomQuestion.step = i;
+            randomQuestion.userPosition = j;
+            questionData.push(randomQuestion);
+        }
+    }
+}
+
+init();
+
+questionsDiv.forEach(question => {
     question.addEventListener('dragstart', () => {
         question.classList.add("question--dragging");
     });
@@ -18,20 +38,20 @@ questions.forEach(question => {
     })
 })
 
-task.addEventListener('dragover', (e) => {
+taskDiv.addEventListener('dragover', (e) => {
     e.preventDefault();
     const selectedQuestion = document.querySelector(".question--dragging");
     const nextQuestion = getNextQuestionDiv(e.clientY);
     if (nextQuestion) {
-        task.insertBefore(selectedQuestion, nextQuestion);
+        taskDiv.insertBefore(selectedQuestion, nextQuestion);
     } else {
-        task.appendChild(selectedQuestion);
+        taskDiv.appendChild(selectedQuestion);
     }
 
 })
 
 function getNextQuestionDiv(y) {
-    const otherQuestion = [...task.querySelectorAll(".question:not(.question--dragging)")]
+    const otherQuestion = [...taskDiv.querySelectorAll(".question:not(.question--dragging)")]
     return otherQuestion.reduce((closest, child) => {
         const rectangle = child.getBoundingClientRect();
         const offset = y - rectangle.top - rectangle.height / 2;
