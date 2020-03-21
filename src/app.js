@@ -2,9 +2,13 @@ import { events } from './data';
 
 const nextButton = document.getElementById("nextButton");
 const previousButton = document.getElementById("previousButton");
+const startAgainButton = document.querySelector(".result__button");
 const stepsBar = document.querySelectorAll(".step");
 const taskDiv = document.querySelector(".task");
 const questionsDiv = document.querySelectorAll(".question");
+const resultDiv = document.querySelector(".result");
+const resultElement = document.querySelector(".result__h1");
+
 
 let currentStep = 0;
 const stepsAmount = 5;
@@ -38,7 +42,8 @@ function showResult() {
             result++;
         }
     }
-    alert(result)
+    resultDiv.style.display = "flex";
+    resultElement.innerHTML = `${result} / ${stepsAmount}`;
 }
 
 function isSorted(tab) {
@@ -112,13 +117,27 @@ previousButton.addEventListener('click', () => {
     }
 })
 
+startAgainButton.addEventListener('click', () => {
+    resultDiv.style.display = "none";
+    currentStep = 0;
+    previousButton.disabled = true;
+    nextButton.innerHTML = "Następne";
+    questionData.length = 0;
+    for(let i = 0; i < events.length; i++){
+        events[i].step = -1;
+    }
+    for (let i = 0; i < stepsBar.length; i++){
+        removeDoneClass(i);
+    }
+    init();
+})
+
 function addDoneClass(element) {
     stepsBar[element].classList.add("step--done");
     stepsBar[element].firstElementChild.classList.add("step__p--done");
 }
 
 function removeDoneClass(element) {
-    console.log(element)
     stepsBar[element].classList.remove("step--done");
     stepsBar[element].firstElementChild.classList.remove("step__p--done");
 }
