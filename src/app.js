@@ -9,30 +9,47 @@ const questionsDiv = document.querySelectorAll(".question");
 let currentStep = 0;
 const stepsAmount = 5;
 const questionAmount = 4;
-const allQuestion = events.length;
 const questionData = [];
-
-function init() {
-    for (let i = 0; i < stepsAmount; i++) {
-        for (let j = 0; j < questionAmount; j++) {
-            let randomQuestion = events[Math.floor(Math.random() * allQuestion)];
-            while (randomQuestion.step !== -1) {
-                randomQuestion = events[Math.floor(Math.random() * allQuestion)];
-            }
-            randomQuestion.step = i;
-            randomQuestion.userPosition = j;
-            questionData.push(randomQuestion);
-        }
-    }
-    showQuestion(currentStep);
-}
 
 function showQuestion(currentStep) {
     const currentQuestions = questionData.filter(q => q.step === currentStep);
-    console.log(currentQuestions)
-    questionsDiv.forEach( (question, index) => {
-        question.innerHTML = currentQuestions[index].event;
+    currentQuestions.sort((q1, q2) => q1.userPosition - q2.userPosition)
+    const questionsDiv = document.querySelectorAll(".question");
+    currentQuestions.forEach((question, index) => {
+        questionsDiv[index].innerHTML = question.event;
     })
+}
+
+function savePosition() {
+    const questionTemp = [...taskDiv.children];
+    for (let i = 0; i < questionTemp.length; i++) {
+        let questionIndex = questionData.findIndex(q => q.event === questionTemp[i].innerHTML);
+        questionData[questionIndex].userPosition = i;
+    }
+}
+
+function showResult() {
+    let result = 0;
+    for (let i = 0; i < stepsAmount; i++) {
+        const answers = questionData.filter(q => q.step === i);
+        answers.sort((q1, q2) => q1.userPosition - q2.userPosition);
+        const years = answers.map(a => a.date);
+        if (isSorted(years)) {
+            result++;
+        }
+    }
+    alert(result)
+}
+
+function isSorted(tab) {
+    let sorted = true;
+    for (let i = 0; i < tab.length - 1; i++) {
+        if (tab[i] > tab[i + 1]) {
+            sorted = false;
+            break;
+        }
+    }
+    return sorted;
 }
 
 questionsDiv.forEach(question => {
@@ -71,24 +88,28 @@ function getNextQuestionDiv(y) {
 
 nextButton.addEventListener('click', () => {
     addDoneClass(currentStep);
-    showQuestion(currentStep)
+    savePosition();
     currentStep++;
     previousButton.disabled = false;
     if (currentStep === 4) {
         nextButton.innerHTML = "Koniec"
     }
-    console.log("next")
+    if (currentStep === stepsAmount) {
+        showResult();
+    } else {
+        showQuestion(currentStep)
+    }
 })
 
 previousButton.addEventListener('click', () => {
     currentStep--;
     removeDoneClass(currentStep);
-    showQuestion(currentStep - 1);
+    savePosition();
+    showQuestion(currentStep);
     nextButton.innerHTML = "Następne"
     if (currentStep === 0) {
         previousButton.disabled = true;
     }
-    console.log("previous")
 })
 
 function addDoneClass(element) {
@@ -100,6 +121,22 @@ function removeDoneClass(element) {
     console.log(element)
     stepsBar[element].classList.remove("step--done");
     stepsBar[element].firstElementChild.classList.remove("step__p--done");
+}
+
+function init() {
+    const allQuestion = events.length;
+    for (let i = 0; i < stepsAmount; i++) {
+        for (let j = 0; j < questionAmount; j++) {
+            let randomQuestion = events[Math.floor(Math.random() * allQuestion)];
+            while (randomQuestion.step !== -1) {
+                randomQuestion = events[Math.floor(Math.random() * allQuestion)];
+            }
+            randomQuestion.step = i;
+            randomQuestion.userPosition = j;
+            questionData.push(randomQuestion);
+        }
+    }
+    showQuestion(currentStep);
 }
 
 init();
