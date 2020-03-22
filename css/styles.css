@@ -152,8 +152,7 @@ body {
 
 .result__h1 {
     font-family: 'Lato', sans-serif;
-    font-size: 15vh;
-    opacity: 1;
+    font-size: 12vh;
     padding: 20px;
     text-align: center;
     color: green;
@@ -167,6 +166,7 @@ body {
 }
 
 .result__button {
+    max-width: 80%;
     padding: 15px 20px;
     border: none;
     border-radius: 5px;
@@ -181,4 +181,13 @@ body {
 
 .result__button:hover{
     background-color: gray;
+}
+
+@media screen and (max-width: 700px){
+    .result__h1{
+        font-size: 25px;
+    }
+    .result__h3{
+        font-size: 20px;
+    }
 }
