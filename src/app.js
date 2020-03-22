@@ -9,7 +9,6 @@ const questionsDiv = document.querySelectorAll(".question");
 const resultDiv = document.querySelector(".result");
 const resultElement = document.querySelector(".result__h1");
 
-
 let currentStep = 0;
 const stepsAmount = 5;
 const questionAmount = 4;
@@ -123,10 +122,10 @@ startAgainButton.addEventListener('click', () => {
     previousButton.disabled = true;
     nextButton.innerHTML = "Następne";
     questionData.length = 0;
-    for(let i = 0; i < events.length; i++){
+    for (let i = 0; i < events.length; i++) {
         events[i].step = -1;
     }
-    for (let i = 0; i < stepsBar.length; i++){
+    for (let i = 0; i < stepsBar.length; i++) {
         removeDoneClass(i);
     }
     init();
