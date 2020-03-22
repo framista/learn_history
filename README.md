@@ -1,6 +1,6 @@
 # learn_history
 ## General info
-A website for pupils to learn the most important dates for Poland.
+A website for pupils to learn the most important dates for Poland. Arrange events in chronological order using drag and drop.
 ## Technologies
 * JavaScript
 * CSS3
