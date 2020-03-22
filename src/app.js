@@ -3,6 +3,7 @@ import { events } from './data';
 const nextButton = document.getElementById("nextButton");
 const previousButton = document.getElementById("previousButton");
 const startAgainButton = document.querySelector(".result__button");
+const stepsButtons = document.querySelectorAll(".step__p");
 const stepsBar = document.querySelectorAll(".step");
 const taskDiv = document.querySelector(".task");
 const questionsDiv = document.querySelectorAll(".question");
@@ -116,6 +117,20 @@ previousButton.addEventListener('click', () => {
     }
 })
 
+stepsButtons.forEach((button, index) => {
+    button.addEventListener('click', (e) => {
+        savePosition();
+        removeAllStepsBar();
+        currentStep = index;
+        showQuestion(currentStep);
+        for (let i = 0; i < currentStep; i++) {
+            addDoneClass(i);
+        }
+        previousButton.disabled = index === 0 ? true : false;
+        nextButton.innerHTML = (currentStep === 4) ? "Koniec" : "Następne";
+    })
+})
+
 startAgainButton.addEventListener('click', () => {
     resultDiv.style.display = "none";
     currentStep = 0;
@@ -125,9 +140,7 @@ startAgainButton.addEventListener('click', () => {
     for (let i = 0; i < events.length; i++) {
         events[i].step = -1;
     }
-    for (let i = 0; i < stepsBar.length; i++) {
-        removeDoneClass(i);
-    }
+    removeAllStepsBar();
     init();
 })
 
@@ -139,6 +152,12 @@ function addDoneClass(element) {
 function removeDoneClass(element) {
     stepsBar[element].classList.remove("step--done");
     stepsBar[element].firstElementChild.classList.remove("step__p--done");
+}
+
+function removeAllStepsBar() {
+    for (let i = 0; i < stepsBar.length; i++) {
+        removeDoneClass(i);
+    }
 }
 
 function init() {
